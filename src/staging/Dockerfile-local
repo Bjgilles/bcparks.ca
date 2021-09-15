@@ -1,0 +1,25 @@
+# ./Dockerfile.dev
+
+FROM node:12.14.0-slim
+
+ENV REACT_APP_CMS_BASE_URL=http://host.docker.internal:1337
+ENV VERBOSE=1
+
+RUN apt update && apt upgrade -y && \
+    apt install gcc g++ make python git libc6-dev build-essential libpng-dev \
+    libjpeg-dev libvips-dev libvips musl-dev node-gyp pngquant webp -y
+
+WORKDIR /app
+
+COPY package.json ./
+RUN npm install --unsafe-perm 
+RUN npm install -g gatsby-cli
+RUN npm install process-top
+
+ENV GATSBY_CPU_COUNT=1
+RUN gatsby build
+
+COPY . /app/
+EXPOSE 8000
+# start app
+CMD ["gatsby", "develop", "-H", "0.0.0.0"]
