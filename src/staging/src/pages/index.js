@@ -3,7 +3,6 @@ import { graphql } from "gatsby"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import Zone from "../components/zone"
-import Menu from "../components/Menu"
 import MainSearch from "../components/search/main-search"
 import "../styles/home.scss"
 import Exclamation from "../images/alert 32px.png"
@@ -106,7 +105,6 @@ export const query = graphql`
 `
 
 export default function Home({ data }) {
-  // ID 6 === Hero Carousel
   const zonesContent = data?.strapiWebsites?.homepage?.Content?.filter(c => !c.HTML.includes('carousel')) || []
   const searchCarousel = data?.strapiWebsites?.homepage?.Content?.find(c => c.HTML.includes('carousel')) || {}
   const menuContent = data?.allStrapiMenus?.nodes || []
