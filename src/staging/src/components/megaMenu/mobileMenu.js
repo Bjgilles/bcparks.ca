@@ -29,11 +29,6 @@ const MobileMenu = ({ linkStructure }) => {
     
     setActiveList(
       <>
-        {targetIsRoot &&
-          <li key="Home" className={`nav-item`}>
-            <Link className={`nav-link`} to="/">Home</Link>
-          </li>
-        }
         {!targetIsRoot && parentMenu?.strapiChildren?.length && 
           <>
             <li key="back" className="nav-item" 

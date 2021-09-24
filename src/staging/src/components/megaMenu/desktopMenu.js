@@ -31,7 +31,7 @@ const DesktopMenu = ({ linkStructure }) => {
     }
     if (strapiChildren?.length) {
       return (
-        <li key={title} className="menu-bar-list">
+        <li key={title}>
           <a href={url} onClick={e => handleLinkClick(e, url)} className="menu-link menu-bar-link" aria-haspopup="true">{title}</a>
           <ul className="mega-menu mega-menu--multiLevel"> {/** level 1 */}
             <li key={`t${title}`} className="menu-list-header">
@@ -78,15 +78,7 @@ const DesktopMenu = ({ linkStructure }) => {
    * @returns {Object[]}
    */
   function formatMenuTree(menu) {
-    const home = {
-      strapiId: 1,
-      title: 'Home',
-      url: '/',
-      pageType: 'Unique',
-      strapiChildren: [],
-      strapiParent: {}
-    }
-    const formattedMenuTree = [home, ...menu.filter(i => i?.strapiParent?.title === 'Home')]
+    const formattedMenuTree = menu.filter(i => i?.strapiParent?.title === 'Home')
     formattedMenuTree.forEach(menuTree => {
       if (menuTree.strapiChildren.length) {
         menuTree.strapiChildren.forEach(child => {

@@ -5,8 +5,8 @@ $colorGold:                         #fcba19;
 $globalFont:                        "BCSans",Verdana,Arial,sans serif;
 $colorLightBlue:                    rgba(56, 89, 138, 1);
 $hoverLinkColor:                    #1A5A96;
-$menuLinkPadding:                   5px 20px;
-$desktopBreakpoint:                 991px;
+$menuLinkPadding:                   5px 10px;
+$tabletBreakpoint:                  767px;
 $megaMenuMultiLevelColWidth:        100/3 + 0%;
 $mobileMenuBackHeight:              calc(1.4em + 40px);
 $mobileMenuBackOffset:              calc(0px - (1.4em + 40px));
@@ -50,6 +50,12 @@ nav {
   background: $colorLightBlue;
   display: flex;
   height: 65px;
+  :first-child {
+    margin-left: 10px;
+  }
+  :last-child {
+    margin-right: 10px;
+  }
 }
 
 .menu-bar-link {
@@ -57,6 +63,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 130px;
   &:hover {
     border-bottom: 2px solid $colorGold;
   }
@@ -72,9 +79,11 @@ nav {
   padding: $menuLinkPadding;
   background: $colorLightBlue;
   color: white;
+  font-size: 15px;
   transition: background .2s, color .2s;
   position: relative;
   z-index: 1;
+  line-height: normal;
 }
 
 .sub-menu-list {
@@ -158,14 +167,12 @@ nav {
 
 // ------------------ MEDIA QUERIES
 
-@media all and (min-width: $desktopBreakpoint + 1px) {
-  // Desktop only
+@media all and (min-width: $tabletBreakpoint + 1px) {
+  // Desktop/tablet
   
   .nav {
-    // margin-top: 50px;
     background: $colorLight;
     > nav {
-      // max-width: 1200px;
       margin: 0 auto;
     }
   }
