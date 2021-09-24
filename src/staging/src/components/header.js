@@ -1,7 +1,5 @@
 import React from "react"
-import MegaMenu from "./MegaMenu"
-
-import { rhythm } from "../utils/typography"
+import MegaMenu from "./megaMenu.js"
 
 export default function Header({ children, mode = 'external', content = [] }) {
   if (mode === 'internal') {
