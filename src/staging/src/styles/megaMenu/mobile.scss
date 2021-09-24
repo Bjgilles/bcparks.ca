@@ -9,12 +9,16 @@ body {
 
 #mainNav {
   background-color: $colorBlue;
+  height: 100%;
 
   .nav-wrapper {
     width: 100%;
     padding: 1rem 1rem;
     button {
       margin-left: auto !important;
+    }
+    .navbar-toggler-icon {
+      font-size: 15px;
     }
     .navbar-toggler.collapsed {
       .close-icon {
@@ -70,6 +74,10 @@ body {
 
   #menuContent {
     background-color: white;
+    z-index: 1300;
+    position: absolute;
+    top: 100%;
+    width: 100%;
   }
 }
 
