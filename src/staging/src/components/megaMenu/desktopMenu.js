@@ -1,10 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Link, navigate } from "gatsby"
-import { isTablet, withOrientationChange } from "react-device-detect"
+import { isTablet } from "react-device-detect"
 import BCParksLogo from "../../images/bcparks-h-rgb-rev.png"
 
-const DesktopMenu = ({ linkStructure, isLandscape }) => {
+const DesktopMenu = ({ linkStructure }) => {
   const formattedContent = formatMenuTree(linkStructure)
 
   /**
@@ -12,11 +12,12 @@ const DesktopMenu = ({ linkStructure, isLandscape }) => {
    * We want to be able to trigger the dropdown of these links without activating the link itself. 
   */
   const handleLinkClick = (e, url) => {
-    if(isTablet && isLandscape) {
+    if(isTablet) {
       return e.preventDefault()
     }
     return navigate(url)
   }
+
   const generateMenuItem = ({ strapiChildren, title, url }) => {
     if (!strapiChildren?.length) {
       return (
@@ -31,7 +32,7 @@ const DesktopMenu = ({ linkStructure, isLandscape }) => {
     if (strapiChildren?.length) {
       return (
         <li key={title} className="menu-bar-list">
-          <a href="/" onClick={e => handleLinkClick(e, url)} className="menu-link menu-bar-link" aria-haspopup="true">{title}</a>
+          <a href={url} onClick={e => handleLinkClick(e, url)} className="menu-link menu-bar-link" aria-haspopup="true">{title}</a>
           <ul className="mega-menu mega-menu--multiLevel"> {/** level 1 */}
             <li key={`t${title}`} className="menu-list-header">
               <Link to={url ?? '/'} className="menu-link menu-list-link mega-menu-link">{title}</Link>
@@ -135,4 +136,4 @@ DesktopMenu.propTypes = {
   }))
 }
 
-export default withOrientationChange(DesktopMenu)
+export default DesktopMenu
