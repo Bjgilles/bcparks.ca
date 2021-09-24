@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link, navigate } from "gatsby"
 import { isTablet, withOrientationChange } from "react-device-detect"
+import BCParksLogo from "../../images/bcparks-h-rgb-rev.png"
 
 const DesktopMenu = ({ linkStructure, isLandscape }) => {
   const formattedContent = formatMenuTree(linkStructure)
@@ -100,15 +101,24 @@ const DesktopMenu = ({ linkStructure, isLandscape }) => {
   }
 
   return (
-    <nav id="main-nav">
-      <ul className="menu menu-bar">
-        {formattedContent.map(fc => {
-          return generateMenuItem(fc)
-        })}
-      </ul>
-    </nav>
+    <>
+      <nav className="navbar navbar-dark" id="desktopNav">
+        <Link to="/">
+          <img className="bc-parks-logo" src={BCParksLogo} alt="BC Parks logo" />
+        </Link>
+        <a href="https://www.discovercamping.ca" target="_blank" className="btn book-campsite-btn">Book a campsite</a>
+      </nav>
+      <div id="desktopNavMenu">
+        <nav>
+          <ul className="menu menu-bar justify-content-center">
+            {formattedContent.map(fc => {
+              return generateMenuItem(fc)
+            })}
+          </ul>
+        </nav>
+      </div>
+    </>
   )
-
 }
 
 DesktopMenu.propTypes = {
