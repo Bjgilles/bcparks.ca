@@ -35,7 +35,7 @@ const DesktopMenu = ({ linkStructure }) => {
           <a href={url} onClick={e => handleLinkClick(e, url)} className="menu-link menu-bar-link" aria-haspopup="true">{title}</a>
           <ul className="mega-menu mega-menu--multiLevel"> {/** level 1 */}
             <li key={`t${title}`} className="menu-list-header">
-              <Link to={url ?? '/'} className="menu-link menu-list-link mega-menu-link">{title}</Link>
+              <Link to={url ?? '/'} className="menu-link menu-list-link mega-menu-link menu-list-header-link">{title}</Link>
             </li>
             {strapiChildren.map(c => {
               let listElement
