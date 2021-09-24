@@ -79,22 +79,41 @@ export const query = graphql`
         marineProtectedArea
       }
     }
+    allStrapiMenus(
+      sort: {fields: order, order: ASC}
+      filter: {show: {eq: true}}
+    ) {
+      nodes {
+        strapiId
+        title
+        url
+        order
+        id
+        strapiChildren {
+          id
+          title
+          url
+          order
+          parent
+        }
+        strapiParent {
+          id
+          title
+        }
+      }
+    }
   }
 `
 
 export default function Home({ data }) {
   // ID 6 === Hero Carousel
-  const zonesContent = data?.strapiWebsites?.homepage?.Content?.filter(c => c.id !== 6) || []
-  const searchCarousel = data?.strapiWebsites?.homepage?.Content?.find(c => c.id === 6) || {}
+  const zonesContent = data?.strapiWebsites?.homepage?.Content?.filter(c => !c.HTML.includes('carousel')) || []
+  const searchCarousel = data?.strapiWebsites?.homepage?.Content?.find(c => c.HTML.includes('carousel')) || {}
+  const menuContent = data?.allStrapiMenus?.nodes || []
 
   return (
     <div className="container-fluid px-0">
-      <Header>
-        {data.strapiWebsites.Header}
-      </Header>
-      <Menu>
-        {data.strapiWebsites.Navigation}
-      </Menu>
+      <Header mode="internal" content={menuContent} />
       <AdvisoryBar />
       <div className="park-search">
         <MainSearch
