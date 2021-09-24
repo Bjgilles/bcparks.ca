@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { graphql } from "gatsby"
-// import Header from "../components/header"
-// import Menu from "../components/menu"
 import Footer from "../components/footer"
 import MegaMenu from "../components/MegaMenu"
 import "../styles/search.scss"
