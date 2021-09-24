@@ -1,11 +1,15 @@
 import React from "react"
-import { css } from "@emotion/react"
-import { useStaticQuery, Link, graphql } from "gatsby"
+import MegaMenu from "./MegaMenu"
 
 import { rhythm } from "../utils/typography"
 
-export default function Header({children}) {
+export default function Header({ children, mode = 'external', content = [] }) {
+  if (mode === 'internal') {
     return (
+      <MegaMenu content={content} />
+    )
+  }
+  return (
     <header id='header' dangerouslySetInnerHTML={{ __html: children}}/>
   )
 }
