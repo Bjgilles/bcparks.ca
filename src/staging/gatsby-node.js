@@ -46,7 +46,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const result = await graphql(`
     {
-      allStrapiProtectedArea(filter: { orcs: { lt: 50 } }) {
+      allStrapiProtectedArea {
         nodes {
           id
           orcs
@@ -74,4 +74,19 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       context: { orcs: park.orcs, park: park },
     })
   })
+}
+
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  if (stage === "build-html" || stage === "develop-html") {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /@arcgis/,
+            use: loaders.null(),
+          },
+        ],
+      },
+    })
+  }
 }
