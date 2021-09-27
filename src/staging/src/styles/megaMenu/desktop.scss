@@ -50,12 +50,6 @@ nav {
   background: $colorLightBlue;
   display: flex;
   height: 65px;
-  :first-child :not(.mega-menu-link, .sub-menu-link) {
-    margin-left: 10px;
-  }
-  :last-child :not(.mega-menu-link, .sub-menu-link) {
-    margin-right: 10px;
-  }
 }
 
 .menu-bar-link {
