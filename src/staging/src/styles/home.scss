@@ -201,6 +201,13 @@ $desktopBreakpoint: 576px;
     height: 49px;
     text-align: center;
   }
+  .advisory-button:hover {
+    background-color: transparent !important;
+    border: 2px solid $colorBlue;
+    a > span {
+      color: $colorBlue !important;
+    }
+  }
   .advisory-content {
     font-size: 16px;
     color: $colorWhite;
@@ -332,6 +339,8 @@ $desktopBreakpoint: 576px;
 }
 
 #carousel-down {
+  z-index: 1299;
+  
   @media screen and (min-width: 801px) { 
     position: absolute;
     top: calc(100% - 7.5vh);
