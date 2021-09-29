@@ -1,12 +1,11 @@
 import React, { useState } from "react"
 import {
-  Box,
-  Button,
   Paper,
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Grid,
+  Box,
 } from "@material-ui/core"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import Heading from "./heading"
@@ -17,37 +16,37 @@ const _ = require("lodash")
 
 export default function ParkActivity({ data }) {
   const activityData = _.sortBy(data, ["activityName"], ["asc"])
-  let expandedsInitial = []
+  let expandedInitial = []
   activityData.forEach((activity, index) => {
-    expandedsInitial[index] = false
+    expandedInitial[index] = false
   })
 
-  const [allExpanded, setAllExpanded] = useState(false)
-  const [expandeds, setExpandeds] = useState(expandedsInitial)
+  // const [allExpanded, setAllExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(expandedInitial)
 
   if (activityData.length === 0) return null
 
   const handleChange = id => (event, isExpanded) => {
-    expandeds[id] = isExpanded
-    setExpandeds([...expandeds])
+    expanded[id] = isExpanded
+    setExpanded([...expanded])
   }
 
-  const expandAll = isAllExpanded => {
-    let expandeds = []
-    activityData.forEach((activity, index) => {
-      expandeds[index] = isAllExpanded
-    })
-    setExpandeds(expandeds)
-  }
+  // const expandAll = isAllExpanded => {
+  //   let expanded = []
+  //   activityData.forEach((activity, index) => {
+  //     expanded[index] = isAllExpanded
+  //   })
+  //   setExpanded(expanded)
+  // }
 
   return (
     <Grid item xs={12} id="park-activity-container" className="anchor-link">
       <Paper elevation={0}>
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Heading>Activities</Heading>
           </Grid>
-          <Grid
+          {/* <Grid
             item
             xs={6}
             container
@@ -63,11 +62,11 @@ export default function ParkActivity({ data }) {
                     setAllExpanded(!allExpanded)
                   }}
                 >
-                  {allExpanded ? "Collapse all" : "Expand All"}
+                  {allExpanded ? "[collapse all]" : "[expand all]"}
                 </Button>
               )}
             </Box>
-          </Grid>
+          </Grid> */}
         </Grid>
         {activityData && (
           <Grid container spacing={1}>
@@ -75,7 +74,7 @@ export default function ParkActivity({ data }) {
               <Grid key={index} item xs={12}>
                 <Paper>
                   <Accordion
-                    expanded={expandeds[index]}
+                    expanded={expanded[index]}
                     onChange={handleChange(index)}
                   >
                     <AccordionSummary
@@ -87,11 +86,13 @@ export default function ParkActivity({ data }) {
                         <img
                           src={activity.icon}
                           alt={activity.icon ? activity.activityName : ""}
-                          width="24"
-                          height="24"
+                          width="48"
+                          height="48"
                         />
                       </Box>
-                      <HtmlContent>{activity.activityName}</HtmlContent>
+                      <HtmlContent className="pl15 p10t">
+                        {activity.activityName}
+                      </HtmlContent>
                     </AccordionSummary>
                     <AccordionDetails>
                       <HtmlContent>{activity.description}</HtmlContent>

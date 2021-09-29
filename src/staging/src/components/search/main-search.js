@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
-import SearchIcon from "@material-ui/icons/Search"
 import {
   TextField,
   Fab,
@@ -18,6 +17,7 @@ import {
 import Select from "react-select"
 import "../../styles/search.scss"
 import HighlightOffOutlinedIcon from "@material-ui/icons/HighlightOffOutlined"
+import SearchIcon from "../../images/BCParks-Search.svg"
 import { navigate } from "gatsby"
 
 const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
@@ -87,9 +87,6 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
         selectedActivities,
         selectedFacilities,
         searchText,
-        activityItems,
-        facilityItems,
-        protectedAreas,
       },
     })
   }
@@ -130,7 +127,7 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
                   searchParkFilter()
                 }}
               >
-                <SearchIcon fontSize="large" className="search-icon" />
+                <img src={SearchIcon} className="search-icon" alt="Search" />
               </Fab>
             </div>
           </div>
@@ -157,7 +154,6 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
             <div className="row">
               <div className="col-12">
                 <TextField
-                  autoFocus
                   margin="dense"
                   id="park-filter-text"
                   className="park-filter-text"
@@ -272,7 +268,6 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
                   variant="outlined"
                   placeholder="Add an activity from this list"
                   styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
-                  menuPortalTarget={document.body}
                   menuPosition={"fixed"}
                 />
               </div>
@@ -309,7 +304,6 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
                   variant="outlined"
                   placeholder="Add a facility from this list"
                   styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
-                  menuPortalTarget={document.body}
                   menuPosition={"fixed"}
                 />
               </div>
