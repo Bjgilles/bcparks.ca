@@ -3,7 +3,6 @@ import { graphql } from "gatsby"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import Zone from "../components/zone"
-import Menu from "../components/menu"
 import MainSearch from "../components/search/main-search"
 import { Container } from "@material-ui/core"
 import "../styles/home.scss"
@@ -80,24 +79,42 @@ export const query = graphql`
         marineProtectedArea
       }
     }
+    allStrapiMenus(
+      sort: {fields: order, order: ASC}
+      filter: {show: {eq: true}}
+    ) {
+      nodes {
+        strapiId
+        title
+        url
+        order
+        id
+        strapiChildren {
+          id
+          title
+          url
+          order
+          parent
+        }
+        strapiParent {
+          id
+          title
+        }
+      }
+    }
   }
 `
 
 export default function Home({ data }) {
-  // ID 6 === Hero Carousel
   const zonesContent = data?.strapiWebsites?.homepage?.Content?.filter(c => !c.HTML.includes('carousel')) || []
   const searchCarousel = data?.strapiWebsites?.homepage?.Content?.find(c => c.HTML.includes('carousel')) || {}
+  const menuContent = data?.allStrapiMenus?.nodes || []
 
   return (
     <>
       <Container maxWidth={false} disableGutters>
+        <Header mode="internal" content={menuContent} />
         <AdvisoryBar />
-        <Header>
-          {data.strapiWebsites.Header}
-        </Header>
-        <Menu>
-          {data.strapiWebsites.Navigation}
-        </Menu>
         <div className="park-search">
           <MainSearch
               data={{
@@ -133,14 +150,14 @@ function AdvisoryBar() {
         <button type="button" className="close" data-dismiss="alert">×</button>
         <div className="row">
           <div className="col-1 pl-0"><img className="alert-exclamation" src={Exclamation} alt="exclamation" /></div>
-          <div className="col-11 align-self-center"><span className="text-center">Some parks are currently affected by wildfire activity. <a href="#" className="d-inline-flex underline">See all advisories</a>.</span></div>
+          <div className="col-11 align-self-center"><span className="text-center">Some parks are currently affected by wildfire activity. <a href="/" className="d-inline-flex underline">See all advisories</a>.</span></div>
         </div>
       </div>
       <div className="alert alert-warning alert-dismissable rounded-0 d-none d-sm-block" role="alert" id="home-alert">
         <button type="button" className="close" data-dismiss="alert">×</button>
         <span className="text-center">
           <img className="alert-exclamation d-inline-flex pr-4" src={Exclamation} alt="exclamation" />
-          Some parks are currently affected by wildfire activity. <a href="#" className="d-inline-flex underline">See all advisories</a>.
+          Some parks are currently affected by wildfire activity. <a href="/" className="d-inline-flex underline">See all advisories</a>.
         </span>
       </div>
     </>
