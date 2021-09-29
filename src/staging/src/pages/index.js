@@ -5,6 +5,7 @@ import Footer from "../components/footer"
 import Zone from "../components/zone"
 import Menu from "../components/menu"
 import MainSearch from "../components/search/main-search"
+import { Container } from "@material-ui/core"
 import "../styles/home.scss"
 import Exclamation from "../images/alert 32px.png"
 
@@ -84,38 +85,44 @@ export const query = graphql`
 
 export default function Home({ data }) {
   // ID 6 === Hero Carousel
-  const zonesContent = data?.strapiWebsites?.homepage?.Content?.filter(c => c.id !== 6) || []
-  const searchCarousel = data?.strapiWebsites?.homepage?.Content?.find(c => c.id === 6) || {}
+  const zonesContent = data?.strapiWebsites?.homepage?.Content?.filter(c => !c.HTML.includes('carousel')) || []
+  const searchCarousel = data?.strapiWebsites?.homepage?.Content?.find(c => c.HTML.includes('carousel')) || {}
 
   return (
-    <div className="container-fluid px-0">
-      <Header>
-        {data.strapiWebsites.Header}
-      </Header>
-      <Menu>
-        {data.strapiWebsites.Navigation}
-      </Menu>
-      <AdvisoryBar />
-      <div className="park-search">
-        <MainSearch
-            data={{
-              activities: data.allStrapiActivityTypes.nodes,
-              facilities: data.allStrapiFacilityTypes.nodes,
-              protectedAreas: data.allStrapiProtectedArea.nodes,
-            }}
-          />
-        <div className="park-search-carousel">
-          <Zone key={6} Content={searchCarousel}  />
-          <div className="col-12 d-none d-sm-block text-center text-white" id="carousel-down"><i className="fa fa-chevron-down"></i></div>
+    <>
+      <Container maxWidth={false} disableGutters>
+        <AdvisoryBar />
+        <Header>
+          {data.strapiWebsites.Header}
+        </Header>
+        <Menu>
+          {data.strapiWebsites.Navigation}
+        </Menu>
+        <div className="park-search">
+          <MainSearch
+              data={{
+                activities: data.allStrapiActivityTypes.nodes,
+                facilities: data.allStrapiFacilityTypes.nodes,
+                protectedAreas: data.allStrapiProtectedArea.nodes,
+              }}
+            />
+          <div className="park-search-carousel">
+            <Zone key={6} Content={searchCarousel}  />
+            <div className="col-12 d-none d-sm-block text-center text-white" id="carousel-down"><i className="fa fa-chevron-down"></i></div>
+          </div>
         </div>
-      </div>
-      <div id="main">
-        {zonesContent.map(content => <Zone key={content.id} zoneID={`Zone${content.id}`} Content={content} />)}
-      </div>
-      <Footer>
-        {data.strapiWebsites.Footer}
-      </Footer>
-    </div>
+      </Container>
+      <Container fixed maxWidth="1300">
+        <div id="main">
+          {zonesContent.map(content => <Zone key={content.id} zoneID={`Zone${content.id}`} Content={content} />)}
+        </div>
+      </Container>
+      <Container maxWidth={false} disableGutters>
+        <Footer>
+          {data.strapiWebsites.Footer}
+        </Footer>
+      </Container>
+    </>
   )
 }
 
