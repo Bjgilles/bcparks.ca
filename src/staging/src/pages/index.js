@@ -5,6 +5,8 @@ import Footer from "../components/footer"
 import Zone from "../components/zone"
 import MainSearch from "../components/search/main-search"
 import { Container } from "@material-ui/core"
+import { isMobile } from "react-device-detect"
+
 import "../styles/home.scss"
 import Exclamation from "../images/alert 32px.png"
 
@@ -113,8 +115,8 @@ export default function Home({ data }) {
   return (
     <>
       <Container maxWidth={false} disableGutters>
-        <Header mode="internal" content={menuContent} />
         <AdvisoryBar />
+        <Header mode="internal" content={menuContent} />
         <div className="park-search">
           <MainSearch
               data={{
@@ -129,7 +131,7 @@ export default function Home({ data }) {
           </div>
         </div>
       </Container>
-      <Container fixed maxWidth="1300">
+      <Container fixed maxWidth="1300px" disableGutters={isMobile ? true: false}>
         <div id="main">
           {zonesContent.map(content => <Zone key={content.id} zoneID={`Zone${content.id}`} Content={content} />)}
         </div>

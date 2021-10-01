@@ -13,11 +13,11 @@ import {
   FormControlLabel,
   Divider,
   Chip,
+  InputAdornment
 } from "@material-ui/core"
 import Select from "react-select"
 import "../../styles/search.scss"
 import HighlightOffOutlinedIcon from "@material-ui/icons/HighlightOffOutlined"
-import SearchIcon from "../../images/BCParks-Search.svg"
 import { navigate } from "gatsby"
 
 const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
@@ -91,8 +91,8 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
     })
   }
 
-  return (
-    <div className="park-search-container park-search-text-container">
+  const renderDesktop = () => {
+    return (
       <div className="park-search-container-inner row align-items-center w-100 no-gutters">
         <div className="col-12">
           <div className="row no-gutters">
@@ -102,8 +102,6 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
                 Plan your next adventure by searching for campsites and day-use
                 areas around B.C.
               </p>
-            </div>
-            <div className="col-12 pt-sm-4 park-search-text">
               <TextField
                 id="park-search-text"
                 variant="outlined"
@@ -127,7 +125,7 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
                   searchParkFilter()
                 }}
               >
-                <img src={SearchIcon} className="search-icon" alt="Search" />
+                <i className="fas fa-search search-icon" />
               </Fab>
             </div>
           </div>
@@ -142,6 +140,100 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
             </Link>
           </div>
         </div>
+      </div>
+    )
+  }
+
+  const renderMobile = () => {
+    return (
+      <div className="row align-items-center w-100 no-gutters">
+        <div className="col-12">
+          <div className="row no-gutters px-3">
+            <div className="col-12 text-center">
+              <h2 className="heading-white-space">Plan your next adventure</h2>
+            </div>
+          </div>
+          <div className="row no-gutters pb-2 px-3">
+            <div className="col-9 pr-1">
+              <TextField
+                  id="park-search-text"
+                  variant="outlined"
+                  placeholder="Search by park name, location, activity..."
+                  className="park-search-text-box mobile-search-element-height"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <i className="fas fa-search"></i>
+                      </InputAdornment>
+                    )
+                  }}
+                  value={searchText}
+                  onChange={event => {
+                    setSearchText(event.target.value)
+                  }}
+                  onKeyPress={ev => {
+                    if (ev.key === "Enter") {
+                      searchParkFilter()
+                      ev.preventDefault()
+                    }
+                  }}
+                />
+            </div>
+            <div className="col-3">
+              <Button
+                  variant="outlined"
+                  onClick={handleClickOpenFilter}
+                  className="bg-transparent rounded text-light mobile-filter mobile-search-element-height"
+              >
+                Filters
+              </Button>
+            </div>
+          </div>
+          <div className="row no-gutters pb-2 px-3">
+            <div className="col-12">
+              <Button
+                  variant="contained"
+                  fullWidth
+                  onClick={() => {
+                    handleCloseFilter()
+                    searchParkFilter()
+                  }}
+                  className="bcgov-normal-blue mobile-search-element-height"
+              >
+                Search
+              </Button>
+            </div>
+          </div>
+          <div className="row no-gutters px-3">
+            <div className="col-12">
+              <Button
+                  variant="contained"
+                  href="https://www.discovercamping.ca/"
+                  target="_blank"
+                  rel="norefferer"
+                  fullWidth
+                  onClick={() => {
+                    handleCloseFilter()
+                    searchParkFilter()
+                  }}
+                  className="bcgov-normal-gold mobile-search-element-height"
+              >
+                Book a campsite
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="park-search-container park-search-text-container">
+      <div className="d-none d-lg-block">
+        {renderDesktop()}
+      </div>
+      <div className="d-block d-lg-none">
+        {renderMobile()}
       </div>
       <Dialog
         open={openFilter}
