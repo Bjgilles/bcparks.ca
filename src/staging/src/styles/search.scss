@@ -9,7 +9,6 @@ $colorTextBlack: #494949;
 $bodyFont: 16px;
 $headingFont: 2rem;
 
-// Breakpoints as per Bootstrap
 $mediumBreakpoint: 991.98px;
 $largeStart: 992px;
 
@@ -117,6 +116,10 @@ $largeStart: 992px;
   white-space: normal;
 }
 
+.park-search-container-wrapper {
+  overflow-x: hidden;
+}
+
 .park-search {
   font-family: $globalFont !important;
   width: 100%;
@@ -140,9 +143,7 @@ $largeStart: 992px;
   }
   .park-search-container {
     position: absolute;
-    top: 30%;
     z-index: 1299;
-    height: auto;
     overflow: visible;
     width: 100%;
     text-align: center;
@@ -153,12 +154,17 @@ $largeStart: 992px;
     font-size: 1.4rem;
     color: rgba(255, 249, 249, 1);
 
+    @media screen and (max-width: 991.97px) {
+      height: inherit;
+      top: unset !important;
+    }
+
     @media screen and (max-width: $mediumBreakpoint) {
       h2 {
         font-size: 37px;
       }
       button > span {
-        font-size: 16px;
+        font-size: 14px;
       }
       .mobile-filter {
         border: 1px solid $colorWhite !important;
@@ -169,10 +175,16 @@ $largeStart: 992px;
       }
     }
 
+    @media screen and (min-width: 376px) and (max-width: 991.97px) {
+      .park-search-group {
+        padding: 0 17%;
+      }
+    }
+
     @media screen and (min-width: $largeStart) {
-      background-color: rgba(0, 51, 102, 0.5) !important;
-      top: unset;
+      background: url("../images/u149.svg");
       bottom: 0;
+      top: unset;
       width: 47.5%;
       height: 100%;
       transform: skewX(20deg);
@@ -185,7 +197,6 @@ $largeStart: 992px;
       height: 100%;
       > div {
         padding-left: 15%;
-        padding-top: 25%;
       }
     }
   }

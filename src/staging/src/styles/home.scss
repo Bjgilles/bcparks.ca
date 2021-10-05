@@ -1,9 +1,15 @@
 $colorBlue: #003366;
-$colorBlueOpacity: #00336690;
+$colorBlueOpacity: rgba(0, 51, 102, 0.8);
 $colorGold: #fcba19;
 $colorGrey: #eef1f5;
 $colorWhite: #fff;
 $desktopBreakpoint: 992px;
+$tabletBreakpoint: 768px;
+
+#main {
+  padding-bottom: 40px;
+  overflow-x: hidden;
+}
 
 /** Center vertical align in a parent with absolute positioning(grid-card/card-body) */
 .v-align-abs {
@@ -16,6 +22,10 @@ $desktopBreakpoint: 992px;
       cursor: pointer;
     }
   }
+}
+
+.width-override {
+  max-width: 1920px;
 }
 
 .zone-links {
@@ -52,7 +62,8 @@ $desktopBreakpoint: 992px;
   margin: 0 40px 0 40px;
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
+  color: $colorBlue !important;
 
   @media screen and (min-width: $desktopBreakpoint) {
     font-size: 26px;
@@ -63,12 +74,11 @@ $desktopBreakpoint: 992px;
   margin: 15px 36px 10px 20px;
   height: 2px;
   background-color: $colorGold;
-  width: 35px;
+  width: 75px;
   display: inline-block;
 
   @media screen and (min-width: $desktopBreakpoint) {
     margin: 20px;
-    width: 75px;
   }
 }
 
@@ -78,7 +88,7 @@ $desktopBreakpoint: 992px;
 
 .link-override {
   text-decoration: none;
-  color: $colorBlue;
+  color: $colorBlue !important;
 }
 
 .grid-card {
@@ -104,7 +114,7 @@ $desktopBreakpoint: 992px;
 }
 
 .card-col-padding:not(:last-child) {
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .link-img > img {
@@ -114,6 +124,7 @@ $desktopBreakpoint: 992px;
 .card-img > img {
   height: 316px;
   width: 100%;
+  object-fit: cover;
   
   @media screen and (min-width: $desktopBreakpoint) {
     height: 440px;
@@ -129,7 +140,7 @@ $desktopBreakpoint: 992px;
 
   @media screen and (max-width: $desktopBreakpoint - 1px) {
     > img {
-      max-width: 90vw;
+      max-width: 50vw;
     }
   }
 
@@ -168,14 +179,22 @@ $desktopBreakpoint: 992px;
   @media screen and (min-width: $desktopBreakpoint) {
     height: 30%;
   }
+  @media screen and (max-width: 414px) {
+    font-size: 15px;
+    padding: 16px;
+  }
 }
+
 .card-body:hover {
   background-color: $colorGold;
   > .v-align-abs {
     color: $colorBlue;
-    > .card-body-header > a {
-      color: $colorBlue;
+    .card-body-header > a {
+      color: $colorBlue !important;
     }
+  }
+  > .card-body-header > a {
+    color: $colorBlue !important;
   }
 }
 
@@ -203,6 +222,10 @@ $desktopBreakpoint: 992px;
   text-decoration: none;
   &:hover {
     text-decoration: underline;
+  }
+
+  @media screen and (max-width: 414px) {
+    font-size: 15px;
   }
 }
 
@@ -249,9 +272,6 @@ $desktopBreakpoint: 992px;
   }
 
   @media screen and (min-width: $desktopBreakpoint) {
-    .advisory .fa-chevron-circle-right { 
-      font-size: 16px;
-    }
     .advisory-button {
       height: 55px;
     }
@@ -281,7 +301,6 @@ $desktopBreakpoint: 992px;
     background-color: $colorGrey;
     bottom: unset;
     color: $colorBlue;
-    padding-top: 15% !important;
   }
   .split-card-body .card-title {
     margin: 0 36px 10px 36px;
@@ -290,22 +309,23 @@ $desktopBreakpoint: 992px;
     background-color: $colorGrey;
   }
   .split-card:hover {
-    @media screen and (min-width: $desktopBreakpoint) {
-      > div > div {
+    > div > div {
+      background-color: $colorGold;
+      > div {
         background-color: $colorGold;
-        > div {
-          background-color: $colorGold;
-        }
-      }
-      .zone-hr > hr {
-        color: $colorBlue !important;
       }
     }
+    .zone-hr > hr {
+      color: $colorBlue !important;
+    }
+  }
+
+  .fa-chevron-circle-right {
+    font-size: 24px;
   }
 
   @media screen and (min-width: $desktopBreakpoint) {
     .fa-chevron-circle-right {
-      font-size: 29px;
       color: $colorBlue;
     }
     .full-horizontal-img > img {
@@ -322,7 +342,7 @@ $desktopBreakpoint: 992px;
 
 #home-carousel {
   .carousel-indicators {
-    bottom: 15%;
+    bottom: 10% !important;
     justify-content: center;
 
     > li, li.active {
@@ -338,10 +358,9 @@ $desktopBreakpoint: 992px;
     }
   }
   .carousel-caption {
-    padding-bottom: 20px !important;
     > p {
       padding-bottom: 0px !important;
-      font-weight: bold;
+      font-size: 8px;
     }
   }
 
@@ -373,6 +392,13 @@ $desktopBreakpoint: 992px;
       bottom: 32px !important;
     }
   }
+}
+
+.content-width-override {
+  max-width: 1320px !important;
+}
+.max-width-override {
+  max-width: 1920px !important;
 }
 
 #carousel-down {

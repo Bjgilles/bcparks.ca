@@ -5,7 +5,7 @@ import Footer from "../components/footer"
 import Zone from "../components/zone"
 import MainSearch from "../components/search/main-search"
 import { Container } from "@material-ui/core"
-import { isMobile } from "react-device-detect"
+import { useMediaQuery } from "react-responsive"
 
 import "../styles/home.scss"
 import Exclamation from "../images/alert 32px.png"
@@ -111,10 +111,11 @@ export default function Home({ data }) {
   const zonesContent = data?.strapiWebsites?.homepage?.Content?.filter(c => !c.HTML.includes('carousel')) || []
   const searchCarousel = data?.strapiWebsites?.homepage?.Content?.find(c => c.HTML.includes('carousel')) || {}
   const menuContent = data?.allStrapiMenus?.nodes || []
+  const isMobile = useMediaQuery({ query: '(max-width: 414px)' })
 
   return (
     <>
-      <Container maxWidth={false} disableGutters>
+      <Container className="park-search-container-wrapper max-width-override" fixed disableGutters>
         <AdvisoryBar />
         <Header mode="internal" content={menuContent} />
         <div className="park-search">
@@ -127,16 +128,16 @@ export default function Home({ data }) {
             />
           <div className="park-search-carousel">
             <Zone key={6} Content={searchCarousel}  />
-            <div className="col-12 d-none d-sm-block text-center text-white" id="carousel-down"><i className="fa fa-chevron-down"></i></div>
+            <div className="col-12 d-none d-lg-block text-center text-white" id="carousel-down"><i className="fa fa-chevron-down"></i></div>
           </div>
         </div>
       </Container>
-      <Container fixed maxWidth="1300px" disableGutters={isMobile ? true: false}>
+      <Container className="content-width-override" fixed disableGutters={isMobile ? true: false}>
         <div id="main">
           {zonesContent.map(content => <Zone key={content.id} zoneID={`Zone${content.id}`} Content={content} />)}
         </div>
       </Container>
-      <Container maxWidth={false} disableGutters>
+      <Container className="max-width-override" fixed disableGutters>
         <Footer>
           {data.strapiWebsites.Footer}
         </Footer>

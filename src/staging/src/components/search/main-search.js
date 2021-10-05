@@ -106,7 +106,7 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
                 id="park-search-text"
                 variant="outlined"
                 placeholder="Search by park name, location, activity..."
-                className="park-search-text-box"
+                className="park-search-text-box pr-2"
                 value={searchText}
                 onChange={event => {
                   setSearchText(event.target.value)
@@ -118,15 +118,16 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
                   }
                 }}
               />
-              <Fab
-                className="search-icon-fab"
-                aria-label="search"
-                onClick={() => {
-                  searchParkFilter()
-                }}
+              <Button
+                  variant="contained"
+                  onClick={() => {
+                    handleCloseFilter()
+                    searchParkFilter()
+                  }}
+                  className="bcgov-normal-gold mobile-search-element-height"
               >
-                <i className="fas fa-search search-icon" />
-              </Fab>
+                Search
+              </Button>
             </div>
           </div>
           <div className="row no-gutters"></div>
@@ -146,7 +147,7 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
 
   const renderMobile = () => {
     return (
-      <div className="row align-items-center w-100 no-gutters">
+      <div className="row align-items-center w-100 no-gutters park-search-group">
         <div className="col-12">
           <div className="row no-gutters px-3">
             <div className="col-12 text-center">
@@ -229,10 +230,10 @@ const MainSearch = ({ data: { activities, facilities, protectedAreas } }) => {
 
   return (
     <div className="park-search-container park-search-text-container">
-      <div className="d-none d-lg-block">
+      <div className="d-none d-lg-block v-align-abs">
         {renderDesktop()}
       </div>
-      <div className="d-block d-lg-none">
+      <div className="d-block d-lg-none v-align-abs">
         {renderMobile()}
       </div>
       <Dialog

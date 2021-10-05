@@ -8,7 +8,7 @@ $globalFont: "BCSans",Verdana,Arial,sans serif;
 
 html {
   background-color: white;
-  font-family: $globalFont;
+  font-family: $globalFont !important;
 }
 * {
   margin: 0;
