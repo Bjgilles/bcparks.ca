@@ -57,9 +57,11 @@ class Parks_ETL:
 
     def _dump_par_data(self, data):
         '''
-
-        :param data:
-        :return:
+        for the protected lands provided in 'data' it wil go through the list, adding or updating strapi as appropriate
+        and  printing  the strapi information for each protected land
+        
+        :param data: a list of protected lands formatted for loading into straps
+        :return: None
         '''
 
         api_url = f'{self.strapi_base}/protected-areas?token={self.token}'
@@ -119,7 +121,10 @@ class Parks_ETL:
         Given the Site info passed in, if the site exists in Strapi it will update Strapi's information.
         If it does not exist in strapi, it will be created there
 
-        :param site: a dict with SIte information to add to strapi
+        :param site: a dict containing the information/attributes for a site defined for use by strapi
+                    sites located within a PROTECTED LAND whose individual parcels are indentified separately in the
+                    legal definition. These sites are generally separated geographically within water features
+                    (ie: lakes, rivers).
         :return: strapi id of the Site
         '''
 
@@ -139,8 +144,13 @@ class Parks_ETL:
         Given the Management Area info passed in, if the site exists in Strapi it will update Strapi's information.
         If it does not exist in strapi, it will be created there
 
-
         :param mArea: a dict containing information for the Management Area
+                the separate management area representation for Parks and Protected Lands. Management Areas which are a 
+                subset of the Section structure.
+                A Parks and Protected Land Management Area is an administrative area established by the Ministry and is 
+                an administrative area which is used to manage internal regional activites through Area supervisor 
+                staff.
+
         :return: the strapi id for the Management Area
         '''
 
@@ -160,7 +170,12 @@ class Parks_ETL:
         Given the Section info passed in, if the site exists in Strapi it will update Strapi's information.
         If it does not exist in strapi, it will be created there
 
-        :param section: a dict with Section information to add to strapi
+        :param section: Section information stored in a dict formatted to add to strapi
+                        the spatial representation for Parks and Protected Lands Administrative Sections which are a
+                        subset of the regional structure.
+                        A Parks and Protected Land Administrative Section is an administrative area established by the
+                        Ministry and is an administrative area which is used to manage internal regional activites.
+
         :return: strapi id of the Section
         '''
         newSection = self.get_section_from_strapi(section["sectionNumber"])
@@ -176,10 +191,15 @@ class Parks_ETL:
 
     def get_or_create_region(self, region):
         '''
-        Given the Resion info passed in, if the site exists in Strapi it will update Strapi's information.
+        Given the Region info passed in, if the site exists in Strapi it will update Strapi's information.
         If it does not exist in strapi, it will be created there
 
-        :param region: a dict with SIte information to add to strapi
+        :param region: a dict containing the infrmation/attribues defined in strapi for a region
+                        the spatial representation for Parks and Protected Lands Administrative Regions which are a
+                        subset of the provincial structure.
+                        A Parks and Protected Land Administrative Region is an administrative area established by the
+                        Ministry and is an administrative area which is used to manage internal provincial regional
+                        activites.
         :return: strapi id of the Region
         '''
         newRegion = self.get_region_from_strapi(region["regionNumber"])
@@ -221,9 +241,12 @@ class Parks_ETL:
 
     def _dump_bcgn_data(self, data):
         '''
+        for the Protected Areas provided in 'data' it wil go through the list, adding or updating strapi as appropriate
+        and  print the strapi information for each Protected Area found in strapi
 
-        :param data:
-        :return:
+        :param data: a set of Protected Area information from BC Geographical Names Information System (BCGN)
+                    formatted for use in strapi
+        :return: None
         '''
         park_type_legal_id = self.get_park_type_legal_from_strapi()
 
@@ -285,8 +308,10 @@ class Parks_ETL:
 
     def _dump_bcwfs_data(self, data):
         '''
+        for the Fire Ban Prohibitions provided in 'data' it will go through the list, adding or updating strapi as 
+        appropriate and  print the strapi information for each Fire ban Prohibition
 
-        :param data:
+        :param data: a set of Fire Ban Prohibitions formatted for use in strapi
         :return:
         '''
         api_url = f'{self.strapi_base}/Fire-Ban-Prohibitions?token={self.token}'
@@ -312,9 +337,11 @@ class Parks_ETL:
 
     def _transform_data_par(self, data):
         '''
+        For each protected land in data, it will transform it into a format compatible with strapi
 
-        :param data:
-        :return:
+        :param data: a list of dicts containing the information/attributes defined in strapi for a protected land
+                        PROTECTED LAND is an area that is protected under the Park Act.
+        :return: a list of strapi compatible protected lands
         '''
 
         json = []
@@ -326,9 +353,11 @@ class Parks_ETL:
 
     def transform_par_to_proct_land(self, pro_land):
         '''
+        For the Protected Land information in  'pro_land' it will create a dict compatible for use with strapi 
 
-        :param pro_land:
-        :return:
+        :param pro_land: a dict containing the information/attributes defined in strapi for a protected land
+                        PROTECTED LAND is an area that is protected under the Park Act.
+        :return: a dict of protected land information ready to go into strapi
         '''
         json = {
             "orcs": pro_land["orcNumber"],
@@ -356,9 +385,13 @@ class Parks_ETL:
     def transform_par_sites(self, orcsNumber, sites):
         '''
 
-        :param orcsNumber:
-        :param sites:
-        :return:
+        :param orcsNumber: is a unique numeric identifier assigned to a Protected Land at the time of designation as 
+                            Protected Land.
+                            It is specific to BC Parks. ORC stands for Outdoor Recreation Council of BC
+        :param sites: sites located within a PROTECTED LAND whose individual parcels are identified separately in the 
+                        legal definition. These sites are generally separated geographically within water features 
+                        (ie: lakes, rivers).
+        :return: a list of sites compatible for use with strapi
         '''
         json = []
 
@@ -371,9 +404,14 @@ class Parks_ETL:
     def transform_par_site(self, orcsNumber, site):
         '''
 
-        :param orcsNumber:
-        :param site:
-        :return:
+        :param orcsNumber: is a unique numeric identifier assigned to a Protected Land at the time of designation as 
+                            Protected Land.
+                            It is specific to BC Parks. ORC stands for Outdoor Recreation Council of BC
+        :param site: a dict containing the information/attributes defined in strapi for a site
+                    sites located within a PROTECTED LAND whose individual parcels are indentified separately in the
+                    legal definition. These sites are generally separated geographically within water features
+                    (ie: lakes, rivers).
+        :return: a dict of site information compatible with strapi
         '''
         orcsSiteNumber = "{}-{}".format(orcsNumber, site["protectedLandSiteNumber"])
 
@@ -394,9 +432,11 @@ class Parks_ETL:
 
     def transform_data_bcgn(self, data):
         '''
+        For each set of Protected Area Information provided by 'data' it will convert the information to a format
+        consumable by strapi
 
-        :param data:
-        :return:
+        :param data: a set of Protected Area information from BC Geographical Names Information System (BCGN)
+        :return: a dict of Protected  Area Information compatible with strapi
         '''
         json = []
         park_type_legal_id = self.get_park_type_legal_from_strapi()
@@ -408,9 +448,11 @@ class Parks_ETL:
 
     def transform_par_mgmtAreas(self, areas):
         '''
+        For each set of Management Areas provided by 'areas' it will convert the information to a format
+        consumable by strapi
 
-        :param areas:
-        :return:
+        :param data: a list of Management Areas from PAR
+        :return: a list of Management Areas compatible with strapi
         '''
         json = []
 
@@ -422,9 +464,16 @@ class Parks_ETL:
 
     def transform_par_mgmtArea(self, area):
         '''
-
-        :param area:
-        :return:
+        Takes a record of Management Area information from PAR and retuens a dixt of that infromation compatible with
+        strapi
+        
+        :param area: a dict od Management Area information from PAR
+                the separate management area representation for Parks and Protected Lands. Management Areas which are a 
+                subset of the Section structure.
+                A Parks and Protected Land Management Area is an administrative area established by the Ministry and is 
+                an administrative area which is used to manage internal regional activites through Area supervisor 
+                staff.
+        :return: a dict of Management Area information compatible with strap 
         '''
         return {
             "managementAreaNumber": int(area["protectedLandManagementAreaNumber"]),
@@ -464,8 +513,8 @@ class Parks_ETL:
     def transform_bcwfs_feature(self, feature):
         '''
 
-        :param feature:
-        :return:
+        :param feature: a dict of Park Feature information from the BC Wildfire Services API
+        :return: a dict of Park Feature Information compatible with strapi 
         '''
 
         attribute = feature["attributes"]
@@ -492,7 +541,7 @@ class Parks_ETL:
 
         :param data: the BCGN data to transform to be be suitable for a strapi collections
         :param park_type_legal_id: the parknametype to be update
-        :return: the transformed record
+        :return: a dict of BCGN information compatible with strapi
         '''
 
         pro_area = self.get_protected_area_from_strapi(data["orcs"])
@@ -528,7 +577,10 @@ class Parks_ETL:
     def create_site_in_strapi(self, site):
         '''
         Create a site in Strapi
-        :param site: a dict containing the infrmation/attribues defined in strapi for a site
+        :param site: a dict containing the information/attributes defined in strapi for a site
+                    sites located within a PROTECTED LAND whose individual parcels are indentified separately in the
+                    legal definition. These sites are generally separated geographically within water features
+                    (ie: lakes, rivers).
         :return: the strapi id of the site
         '''
 
@@ -553,9 +605,12 @@ class Parks_ETL:
     def update_site_in_strapi(self, id, site):
         '''
 
-        :param id:
-        :param site:
-        :return:
+        :param id: strapi identified for the site
+        :param site: a dict containing the information/attributes defined in strapi for a site
+                    sites located within a PROTECTED LAND whose individual parcels are indentified separately in the
+                    legal definition. These sites are generally separated geographically within water features
+                    (ie: lakes, rivers).
+        :return: the strapi id for the site
         '''
 
         api_url = f"{self.strapi_base}/sites/{id}?token={self.token}"
@@ -579,7 +634,13 @@ class Parks_ETL:
     def create_region_in_strapi(self, region):
         '''
         Create a region in Strapi
+        
         :param region: a dict containing the infrmation/attribues defined in strapi for a region
+                        the spatial representation for Parks and Protected Lands Administrative Regions which are a
+                        subset of the provincial structure.
+                        A Parks and Protected Land Administrative Region is an administrative area established by the
+                        Ministry and is an administrative area which is used to manage internal provincial regional
+                        activites.
         :return: the strapi id of the region
         '''
 
@@ -605,7 +666,12 @@ class Parks_ETL:
     def create_section_in_strapi(self, section):
         '''
         Create a section in Strapi
-        :param section: a dict containing the infrmation/attribues defined in strapi for a section
+
+        :param section: a dict containing the information/attributes defined in strapi for a section.
+                        the spatial representation for Parks and Protected Lands Administrative Sections which are a
+                        subset of the regional structure.
+                        A Parks and Protected Land Administrative Section is an administrative area established by the
+                        Ministry and is an administrative area which is used to manage internal regional activites.
         :return: the strapi id of the section
         '''
 
@@ -633,7 +699,12 @@ class Parks_ETL:
         Create Management Area in Strapi
         Ensures the corresponding Region/Section exists, creating if need before
 
-        :param mArea: a dict containing the infrmation/attribues defined in strapi for a Management Area
+        :param mArea: a dict containing the information/attribues defined in strapi for a Management Area.
+                the separate management area representation for Parks and Protected Lands. Management Areas which are a 
+                subset of the Section structure.
+                A Parks and Protected Land Management Area is an administrative area established by the Ministry and is 
+                an administrative area which is used to manage internal regional activites through Area supervisor 
+                staff.
         :return: the strapi id of the Management Area
         '''
 
@@ -667,9 +738,9 @@ class Parks_ETL:
     def update_mgmt_area_in_strapi(self, id, mArea):
         '''
 
-        :param id: the id in strapi for a particular mamagement area
-        :param mArea:
-        :return:
+        :param id: the id in strapi for a particular Management Area
+        :param mArea: the information to update for the Management Area
+        :return: the strapi id for the management area
         '''
 
         api_url = f"{self.strapi_base}/management-areas/{id}?token={self.token}"
@@ -697,9 +768,12 @@ class Parks_ETL:
 
     def get_protected_area_from_strapi(self, orcs):
         '''
+        Retrieves the protected area infromation from strapi where identified by it's ORC_NUMBER
 
-        :param orcs:
-        :return:
+        :param orcs: orcs is a unique numeric identifier assigned to a Protected Land at the time of designation as 
+                    Protected Land.
+                    It is specific to BC Parks. ORC stands for Outdoor Recreation Council of BC
+        :return: the first record od protected area information returned from strapi
         '''
 
         api_url = f"{self.strapi_base}/protected-areas?orcs={orcs}"
@@ -724,8 +798,8 @@ class Parks_ETL:
     def get_site_from_strapi(self, orcsSiteNumber):
         '''
 
-        :param orcsSiteNumber:
-        :return:
+        :param orcsSiteNumber:  identifies the unique Protected Land Site.
+        :return: inforamtion about the Protected Land site from strapi
         '''
 
         api_url = f"{self.strapi_base}/sites?orcsSiteNumber={orcsSiteNumber}"
@@ -749,8 +823,8 @@ class Parks_ETL:
     def get_mgmt_area_from_strapi(self, mAreaNumber):
         '''
 
-        :param mAreaNumber:
-        :return:
+        :param mAreaNumber: dentifies the unique MANAGEMENT AREA.
+        :return: a json structure containing Region information from strapi for the identified Management Area
         '''
 
         api_url = f"{self.strapi_base}/management-areas?managementAreaNumber={mAreaNumber}"
@@ -774,8 +848,8 @@ class Parks_ETL:
     def get_region_from_strapi(self, regionNumber):
         '''
 
-        :param regionNumber:
-        :return:
+        :param regionNumber:  identifies the unique Administrative Region.
+        :return: a json structure containing Region information from strapi
         '''
 
         api_url = f"{self.strapi_base}/regions?regionNumber={regionNumber}"
@@ -799,8 +873,8 @@ class Parks_ETL:
     def get_section_from_strapi(self, sectionNumber):
         '''
 
-        :param sectionNumber:
-        :return:
+        :param sectionNumber:  identifies the unique Administrative Section
+        :return: a json structure containing Administrative Section information from strapi
         '''
 
         api_url = f"{self.strapi_base}/sections?sectionNumber={sectionNumber}"
@@ -826,7 +900,7 @@ class Parks_ETL:
         query Strapi for a list of legal names of parks for a particular park type in a particular protected are
         If any are found, it returns the first park meeting the criteria
 
-        :param protectedAreaId: the id of a protetced area
+        :param protectedAreaId: the id of a protetecd area
         :param parkNameLegalId:  the id of a park's type
         :return: a Strapi Park record
         '''
@@ -852,7 +926,7 @@ class Parks_ETL:
     def get_park_type_legal_from_strapi(self):
         '''
 
-        :return:
+        :return: return the strapi od foe legal park name type
         '''
 
         api_url = f"{self.strapi_base}/park-name-types?nameType=Legal"
@@ -876,8 +950,8 @@ class Parks_ETL:
     def get_firezone_from_strapi(self, fireZoneName):
         '''
 
-        :param fireZoneName:
-        :return:
+        :param fireZoneName: the name of a Fire Zone
+        :return: Fire ZOne informaion from Strapi
         '''
 
         api_url = f"{self.strapi_base}/Fire-Zones?fireZoneName_contains={fireZoneName}"
@@ -900,8 +974,9 @@ class Parks_ETL:
     def get_firecentre_from_strapi(self, fireCentreName):
         '''
         retrieve all firecentres from strapi whose names contains the string passed in
-        :param fireCentreName:a Fire Centre name, or part thereof
-        :return:
+        
+        :param fireCentreName: a Fire Centre name, or part thereof
+        :return: information about the Fire Centre from strapi
         '''
 
         api_url = f"{self.strapi_base}/Fire-Centres?fireCentreName_contains={fireCentreName}"
@@ -961,4 +1036,3 @@ class Parks_ETL:
         '''
 
         pass
-
